@@ -1,0 +1,51 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Cards</title>
+  <meta name="description" content="A basic html5 flash card app">
+  <meta name="author" content="Samuel Christensen">
+
+  <meta property="og:title" content="A Basic HTML5 Template">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://samachr.github.io/cards/">
+  <meta property="og:description" content="A basic html5 flash card app">
+  <!-- <meta property="og:image" content="image.png"> -->
+
+  <!-- <link rel="icon" href="/favicon.ico">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
+
+  <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+
+  <div class="game">
+    <div class="prompt">
+      5 + 5
+    </div>
+
+    <div class="response">
+      <input autofocus type="text" name="response" id="response">
+    </div>
+  </div>
+
+  <script type="module">
+    import { CardGame } from './js/card_game.mjs'
+    window.cardGame = new CardGame(
+      [
+        ["1 + 1", 2],
+        ["2 + 2", 4]
+      ],
+      (prompt) => {
+        document.querySelector('.prompt').innerHTML = prompt[0]
+      }
+    )
+  </script>
+</body>
+</html>

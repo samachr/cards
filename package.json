@@ -1,0 +1,26 @@
+{
+  "name": "cards",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js/cards.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha",
+    "start": "live-server --ignore=node_modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samachr/cards.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samachr/cards/issues"
+  },
+  "homepage": "https://github.com/samachr/cards#readme",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "live-server": "^1.2.1",
+    "mocha": "^9.1.3"
+  }
+}
