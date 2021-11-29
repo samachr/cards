@@ -26,13 +26,18 @@
 <body>
 
   <div class="game">
+    <div class="game-choice">
+      <button id="addition">Addition</button>
+      <button id="timestables">Multiplication</button>
+    </div>
+
     <div class="prompt">
       5 + 5
     </div>
 
     <div class="response">
       <form onsubmit="return attemptSubmit()">
-        <input autofocus type="number" id="response">
+        <input autofocus type="text" id="response">
         <button type="submit">Submit</button>
       </form>
     </div>
@@ -55,6 +60,25 @@
       },
       2000
     );
+
+    document.getElementById('addition').addEventListener('click', () => {
+      window.cardGame = CardGame.Addition(
+        (prompt) => {
+          document.querySelector('.prompt').innerHTML = prompt
+        },
+        2000
+      );
+    });
+
+    document.getElementById('timestables').addEventListener('click', () => {
+      window.cardGame = CardGame.TimesTables(
+        (prompt) => {
+          document.querySelector('.prompt').innerHTML = prompt
+        },
+        2000
+      );
+    });
+
   </script>
 </body>
 </html>
