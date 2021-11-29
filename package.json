@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "mocha",
-    "start": "live-server --ignore=node_modules"
+    "start": "live-server --ignore=node_modules,.git"
   },
   "repository": {
     "type": "git",
