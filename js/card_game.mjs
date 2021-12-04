@@ -43,6 +43,10 @@ export class CardGame {
       }
   }
 
+  totalPrompts() {
+      return this.prompts.length
+  }
+
   isOver() {
       return this.currentPromptIndex == this.prompts.length
   }

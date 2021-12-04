@@ -1,6 +1,6 @@
 import { Plugin } from '../plugin.mjs'
 
-export class GameTrackerPlugin extends Plugin {
+export class TimingPlugin extends Plugin {
   constructor(dateGenerator) {
     super();
     this.startTimes = [];

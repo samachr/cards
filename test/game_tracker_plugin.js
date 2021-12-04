@@ -1,14 +1,14 @@
-import { GameTrackerPlugin } from '../js/plugins/game_tracker_plugin.mjs'
+import { TimingPlugin } from '../js/plugins/timing_plugin.mjs'
 import { expect } from 'chai'
 
-describe('GameTrackerPlugin', function() {
+describe('TimingPlugin', function() {
   it('tracks timings', function() {
     const mockDate = () => {
       let call = 0;
       return () => call * call++;
     }
 
-    const plugin = new GameTrackerPlugin(mockDate());
+    const plugin = new TimingPlugin(mockDate());
 
     plugin.onGameStart()
     plugin.onAdvancePrompt()

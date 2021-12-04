@@ -8,6 +8,11 @@ describe('CardGame', function() {
         expect(cardGame).instanceOf(CardGame)
     });
 
+    it('shows total prompts', function() {
+        const cardGame = new CardGame([[1,1],[2,2]]);
+        expect(cardGame.totalPrompts()).to.equal(2)
+    });
+
     it('sets an initial prompt', function() {
         const cardGame = new CardGame([
                 ["1 + 1", 2]
