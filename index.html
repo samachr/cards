@@ -26,26 +26,59 @@
 <body>
 
   <div class="game">
+    <div class="game-choice">
+      <button id="addition">Addition</button>
+      <button id="timestables">Multiplication</button>
+    </div>
+
     <div class="prompt">
       5 + 5
     </div>
 
     <div class="response">
-      <input autofocus type="text" name="response" id="response">
+      <form onsubmit="return attemptSubmit()">
+        <input autofocus type="text" id="response">
+        <button type="submit">Submit</button>
+      </form>
     </div>
   </div>
 
+  <script>
+    function attemptSubmit() {
+      const responseInput = document.getElementById('response');
+      cardGame.attemptResponse(responseInput.value);
+      responseInput.value = '';
+      return false;
+    }
+  </script>
+
   <script type="module">
-    import { CardGame } from './js/card_game.mjs'
-    window.cardGame = new CardGame(
-      [
-        ["1 + 1", 2],
-        ["2 + 2", 4]
-      ],
+    import { CardGameBasicUI } from './js/card_game.mjs'
+    window.cardGame = CardGameBasicUI.TimesTables(
       (prompt) => {
-        document.querySelector('.prompt').innerHTML = prompt[0]
-      }
-    )
+        document.querySelector('.prompt').innerHTML = prompt
+      },
+      2000
+    );
+
+    document.getElementById('addition').addEventListener('click', () => {
+      window.cardGame = CardGameBasicUI.Addition(
+        (prompt) => {
+          document.querySelector('.prompt').innerHTML = prompt
+        },
+        2000
+      );
+    });
+
+    document.getElementById('timestables').addEventListener('click', () => {
+      window.cardGame = CardGameBasicUI.TimesTables(
+        (prompt) => {
+          document.querySelector('.prompt').innerHTML = prompt
+        },
+        2000
+      );
+    });
+
   </script>
 </body>
 </html>
