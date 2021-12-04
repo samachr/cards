@@ -53,8 +53,8 @@
   </script>
 
   <script type="module">
-    import { CardGame } from './js/card_game.mjs'
-    window.cardGame = CardGame.TimesTables(
+    import { CardGameBasicUI } from './js/card_game.mjs'
+    window.cardGame = CardGameBasicUI.TimesTables(
       (prompt) => {
         document.querySelector('.prompt').innerHTML = prompt
       },
@@ -62,7 +62,7 @@
     );
 
     document.getElementById('addition').addEventListener('click', () => {
-      window.cardGame = CardGame.Addition(
+      window.cardGame = CardGameBasicUI.Addition(
         (prompt) => {
           document.querySelector('.prompt').innerHTML = prompt
         },
@@ -71,7 +71,7 @@
     });
 
     document.getElementById('timestables').addEventListener('click', () => {
-      window.cardGame = CardGame.TimesTables(
+      window.cardGame = CardGameBasicUI.TimesTables(
         (prompt) => {
           document.querySelector('.prompt').innerHTML = prompt
         },
