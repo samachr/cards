@@ -9,12 +9,12 @@ describe('CardGame', function() {
     });
 
     it('shows total prompts', function() {
-        const cardGame = new CardGame([[1,1],[2,2]]);
+        const cardGame = CardGame.fromPrompts([[1,1],[2,2]]);
         expect(cardGame.totalPrompts()).to.equal(2)
     });
 
     it('sets an initial prompt', function() {
-        const cardGame = new CardGame([
+        const cardGame = CardGame.fromPrompts([
                 ["1 + 1", 2]
             ]
         )
@@ -23,7 +23,7 @@ describe('CardGame', function() {
     })
 
     it('updates to next question after response', function() {
-        const cardGame = new CardGame([
+        const cardGame = CardGame.fromPrompts([
                 ["1 + 1", 2],
                 ["2 + 2", 4]
             ]
@@ -39,7 +39,7 @@ describe('CardGame', function() {
     })
 
     it('does not advance to the next question on incorrect response', function() {
-        const cardGame = new CardGame([
+        const cardGame = CardGame.fromPrompts([
                 ["1 + 1", 2],
                 ["2 + 2", 4]
             ]
@@ -55,7 +55,7 @@ describe('CardGame', function() {
     })
 
     it('plays a whole game', function() {
-        const cardGame = new CardGame([
+        const cardGame = CardGame.fromPrompts([
                 ["1 + 1", 2],
                 ["2 + 2", 4]
             ]
@@ -69,7 +69,7 @@ describe('CardGame', function() {
     })
 
     it('plays a whole game with incorrect attempts', function() {
-        const cardGame = new CardGame([
+        const cardGame = CardGame.fromPrompts([
                 ["1 + 1", 2],
                 ["2 + 2", 4]
             ]
@@ -85,10 +85,19 @@ describe('CardGame', function() {
     })
 
     it('runs plugin hooks', function() {
+        let initPrompts = 0;
         let gameStarted = 0;
         let promptAdvanced = 0;
         let gameOver = 0;
         class TestPlugin extends Plugin {
+          initPrompts() {
+            initPrompts++;
+            return [
+                ["1 + 1", 2],
+                ["2 + 2", 4]
+            ]
+          }
+
           onGameStart(prompts) {
             gameStarted++;
             expect(prompts).to.eql([
@@ -108,13 +117,9 @@ describe('CardGame', function() {
           }
           onGameOver() { gameOver++ }
         }
-        const cardGame = new CardGame([
-                ["1 + 1", 2],
-                ["2 + 2", 4]
-            ],
-            [new TestPlugin()]
-        );
+        const cardGame = new CardGame([new TestPlugin()]);
         expect(gameStarted).to.equal(1)
+        expect(initPrompts).to.equal(1)
         cardGame.attemptResponse(2)
         expect(promptAdvanced).to.equal(1)
         cardGame.attemptResponse(4)

@@ -1,6 +1,17 @@
+import { Plugin } from "./plugin.mjs";
+
 export class CardGame {
-  constructor(prompts, plugins) {
-      this.prompts = prompts || [];
+  constructor(plugins) {
+      this.prompts = (plugins || []).map(
+        plugin => plugin.initPromptsInternal()
+      ).reduce((previous, current) => {
+        return previous.concat(current)
+      }, []);
+      this.promptAnnotations = this.prompts.reduce((obj, x) => {
+        obj[x[0]] = {};
+        return obj;        
+      }, {});
+
       this.currentPromptIndex = 0;
       this.plugins = plugins || [];
       this.hook('GameStart', { prompts: this.prompts })
@@ -15,6 +26,7 @@ export class CardGame {
           this.advancePrompt();
           return true;
       } else {
+          this.annotatePrompt('failedAttempts', 1)
           return false;
       }
   }
@@ -36,7 +48,7 @@ export class CardGame {
   advancePrompt() {
       const previous = this.currentPrompt();
       this.currentPromptIndex++;
-      this.hook('AdvancePrompt', {previous: previous, current: this.currentPrompt()})
+      this.hook('AdvancePrompt', {previous: previous, current: this.currentPrompt(), annotations: this.promptAnnotations[previous]})
       
       if (this.isOver()) {
         this.hook('GameOver')
@@ -55,5 +67,24 @@ export class CardGame {
     this.plugins.forEach(plugin => {
       plugin['on' + name + 'Internal'](data || {})
     });
-  }  
+  }
+
+  annotatePrompt(annotation, value) {
+    if (this.promptAnnotations[this.currentPrompt()][annotation]) {
+      this.promptAnnotations[this.currentPrompt()][annotation] += value
+    } else {
+      this.promptAnnotations[this.currentPrompt()][annotation] = value
+    }
+  }
+
+  static fromPrompts(prompts, plugins) {
+
+    class AnonymousPromptPlugin extends Plugin {
+      initPrompts() {
+        return prompts;
+      }
+    }
+
+    return new CardGame([new AnonymousPromptPlugin()].concat(plugins || []))
+}
 }

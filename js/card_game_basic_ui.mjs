@@ -2,7 +2,7 @@ import { CardGame } from './card_game.mjs'
 
 export class CardGameBasicUI {
     constructor(prompts, displayCallback, advanceDelay) {
-        this.game = new CardGame(prompts || [['no prompt entered', 1]])
+        this.game = CardGame.fromPrompts(prompts || [['no prompt entered', 1]])
         this.advanceDelay = advanceDelay || 0;
         this.displayCallback = displayCallback || (() => {});
         this.displayCallback(this.game.currentPrompt())

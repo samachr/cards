@@ -11,8 +11,9 @@ export class TimingPlugin extends Plugin {
     this.startTimes.push(this.dateGenerator());
   }
 
-  onAdvancePrompt(previous, current) {
+  onAdvancePrompt(previous, current, annotations) {
     this.startTimes.push(this.dateGenerator());
+    annotations['responseTime'] = this.startTimes[this.startTimes.length - 1] - this.startTimes[this.startTimes.length - 2];
   }
 
   onGameOver() { }

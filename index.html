@@ -31,8 +31,13 @@
       <button id="timestables">Multiplication</button>
     </div>
 
-    <div class="prompt">
-      5 + 5
+    <div class="main-area">
+      <div class="previous">
+        <div>Previous Prompts</div>
+      </div>
+      <div class="prompt">
+        5 + 5
+      </div>
     </div>
 
     <div class="response">
@@ -46,37 +51,43 @@
   <script>
     function attemptSubmit() {
       const responseInput = document.getElementById('response');
-      cardGame.attemptResponse(responseInput.value);
+      try {
+        cardGame.attemptResponse(responseInput.value);
+      } catch (error) {
+        console.log(error)
+      }
       responseInput.value = '';
       return false;
     }
   </script>
 
   <script type="module">
-    import { CardGameBasicUI } from './js/card_game_basic_ui.mjs'
-    window.cardGame = CardGameBasicUI.TimesTables(
-      (prompt) => {
-        document.querySelector('.prompt').innerHTML = prompt
-      },
-      2000
-    );
+    import { CardGame } from './js/card_game.mjs'
+    import { AdditionGamePlugin } from './js/plugins/addition_game_plugin.mjs'
+    import { MultiplicationGamePlugin } from './js/plugins/multiplication_game_plugin.mjs'
+    import { BasicUiPlugin } from './js/plugins/basic_ui_plugin.mjs'
+    import { TimingPlugin } from './js/plugins/timing_plugin.mjs'
+    
+    window.cardGame = new CardGame([
+      new AdditionGamePlugin(),
+      new TimingPlugin(),
+      new BasicUiPlugin(),
+    ]);
 
     document.getElementById('addition').addEventListener('click', () => {
-      window.cardGame = CardGameBasicUI.Addition(
-        (prompt) => {
-          document.querySelector('.prompt').innerHTML = prompt
-        },
-        2000
-      );
+      window.cardGame = new CardGame([
+        new AdditionGamePlugin(),
+        new TimingPlugin(),
+        new BasicUiPlugin(),
+      ]);
     });
 
     document.getElementById('timestables').addEventListener('click', () => {
-      window.cardGame = CardGameBasicUI.TimesTables(
-        (prompt) => {
-          document.querySelector('.prompt').innerHTML = prompt
-        },
-        2000
-      );
+      window.cardGame = new CardGame([
+        new MultiplicationGamePlugin(),
+        new TimingPlugin(),
+        new BasicUiPlugin(),
+      ]);
     });
 
   </script>

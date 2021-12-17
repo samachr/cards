@@ -10,10 +10,19 @@ describe('TimingPlugin', function() {
 
     const plugin = new TimingPlugin(mockDate());
 
+    const annotations = {
+      1: {},
+      2: {},
+      3: {}
+    }
+
     plugin.onGameStart()
-    plugin.onAdvancePrompt()
-    plugin.onAdvancePrompt()
-    plugin.onAdvancePrompt()
+    plugin.onAdvancePrompt(1, 2, annotations[1])
+    expect(annotations[1].responseTime).to.equal(1)
+    plugin.onAdvancePrompt(2, 3, annotations[2])
+    expect(annotations[2].responseTime).to.equal(3)
+    plugin.onAdvancePrompt(3, '', annotations[3])
+    expect(annotations[3].responseTime).to.equal(5)
     plugin.onGameOver()
 
     const timings = plugin.getAllTimes()

@@ -1,12 +1,16 @@
 export class Plugin {
   constructor() {}
 
+  initPromptsInternal() {
+    return this.initPrompts() || []
+  }
+
   onGameStartInternal(data) {
     this.onGameStart(data.prompts);
   }
 
   onAdvancePromptInternal(data) {
-    this.onAdvancePrompt(data.previous, data.current);
+    this.onAdvancePrompt(data.previous, data.current, data.annotations);
   }
 
   onGameOverInternal() {
@@ -14,6 +18,7 @@ export class Plugin {
   }
 
   onGameStart(prompts) {}
-  onAdvancePrompt(previous, current) {}
+  onAdvancePrompt(previous, current, annotations) {}
   onGameOver() {}
+  initPrompts() {}
 }
